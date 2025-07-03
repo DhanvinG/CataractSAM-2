@@ -1,19 +1,33 @@
 from pathlib import Path
-from sam2.build_sam import build_sam2_video_predictor   # comes from FB repo
+from sam2.build_sam import build_sam2_video_predictor
 
-CFG_PATH = Path(__file__).with_suffix("").parent / "cfg" / "sam2_hiera_l.yaml"
+CFG   = Path(__file__).with_suffix("").parent / "cfg" / "sam2_hiera_l.yaml"
 
 class Predictor:
-    """Tiny wrapper around Meta’s SAM‑2 video predictor."""
+    """
+    Thin wrapper around Meta’s build_sam2_video_predictor.
+    Usage
+    -----
+    >>> pred = Predictor("checkpoints/sam2_hiera_large.pt", device="cuda")
+    >>> state = pred.init_state(video_path="data/frames")
+    """
+    # ----------------------------------------------------
     def __init__(self, weights: str | Path, device: str = "cuda"):
-        self._pred = build_sam2_video_predictor(
-            model_cfg=str(CFG_PATH),
+        self.pred = build_sam2_video_predictor(
+            model_cfg=str(CFG),
             ckpt=str(weights),
             device=device,
         )
 
-    # expose only what our UI needs
-    def init_state            (self, **k):   return self._pred.init_state(**k)
-    def reset_state           (self, *a, **k): return self._pred.reset_state(*a, **k)
-    def add_new_points_or_box (self, *a, **k): return self._pred.add_new_points_or_box(*a, **k)
-    def propagate_in_video    (self, *a, **k): return self._pred.propagate_in_video(*a, **k)
+    # ----  surface only the methods the widget / scripts need  ----
+    def init_state(self, **kw):                     # pylint: disable=missing-docstring
+        return self.pred.init_state(**kw)
+
+    def reset_state(self, *a, **k):
+        return self.pred.reset_state(*a, **k)
+
+    def add_new_points_or_box(self, *a, **k):
+        return self.pred.add_new_points_or_box(*a, **k)
+
+    def propagate_in_video(self, *a, **k):
+        return self.pred.propagate_in_video(*a, **k)
