@@ -1,5 +1,5 @@
 from .ui_widget import Object, Reset, Visualize, Propagate
-from .masks     import generate_multiclass_masks
+from .masks     import Masks
 from .predictor import Predictor
 
 __all__ = [
