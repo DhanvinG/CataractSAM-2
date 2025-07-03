@@ -199,7 +199,7 @@ def Propagate(vis_frame_stride: int):
         plt.title(f"Frame {idx}")
         plt.imshow(Image.open(os.path.join(video_dir, frame_names[idx])))
         plt.axis("off")
-        for oid, mask in video_segments[idx].items():
+        for oid, mask in video_segments.get(idx, {}).items():
             show_mask(mask, plt.gca(), obj_id=oid)
         plt.show()
 
