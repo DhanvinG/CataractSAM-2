@@ -8,3 +8,10 @@ pip install -e .
 python examples/download_checkpoints.py     # downloads SAM‑2 weights
 jupyter lab notebooks/00_quick_start.ipynb
 ```
+
+After propagating masks in the notebook you can export them as PNG files:
+
+```python
+from cataractsam2 import Masks
+Masks("./masks")  # writes one PNG per frame/object
+```
