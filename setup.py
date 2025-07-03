@@ -8,6 +8,6 @@ setup(
     python_requires=">=3.9",
     install_requires=[l.strip() for l in open("requirements.txt") if l.strip()],
     author="Dhanvin Ganeshkumar",
-    license="MIT",
+    license="Apache-2.0",
     description="Domain‑adapted SAM‑2 for cataract surgery videos",
 )
