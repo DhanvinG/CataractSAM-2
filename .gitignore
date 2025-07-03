@@ -2,3 +2,4 @@ venv/
 checkpoints/
 cataractsam2/__pycache__/
 *.egg-info/
+dist/
