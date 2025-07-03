@@ -1,37 +1,44 @@
-import os, numpy as np
+from __future__ import annotations
+import os
+from pathlib import Path
 from PIL import Image
-from typing import Mapping
+import numpy as np
 
-def Masks(directory: str | os.PathLike):
+__all__ = ["Masks"]
+
+def Masks(
+    video_segments: dict[int, dict[int, np.ndarray]],
+    out_dir: str | os.PathLike
+):
     """
-    Save one PNG per (frame, object) in `video_segments`.
-
-    • Call it with an explicit path: generate_multiclass_masks("/tmp/out")
-    • Or pass any variable that holds a path: generate_multiclass_masks(current_mask_dir)
-
-    Raises
-    ------
-    ValueError  if `directory` is not provided or is empty.
+    video_segments = {
+        frame_idx: {
+            obj_id: boolean_mask_numpy_array,
+            …
+        },
+        …
+    }
+    Writes one multi‑class PNG per frame, where each pixel value is the object ID (0=background).
     """
-    if not directory:
-        raise ValueError("Please supply an output directory path.")
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
 
-    # allow pathlib.Path as well as str
-    directory = os.fspath(directory)
-    os.makedirs(directory, exist_ok=True)
+    for f_idx, obj_map in video_segments.items():
+        if not obj_map:
+            # nothing to draw on this frame
+            continue
 
-    for frame_idx, obj_masks in video_segments.items():
-        for obj_id, mask in obj_masks.items():
-            # squeeze to 2D
-            mask_2d = np.squeeze(mask)
-            if mask_2d.ndim != 2:
-                mask_2d = mask_2d.squeeze(0)
+        # Start with a blank 0‑filled canvas same shape as one of the masks
+        sample_mask = next(iter(obj_map.values()))
+        canvas = np.zeros_like(sample_mask, dtype=np.uint8)
 
-            out_path = os.path.join(
-                directory, f"frame_{frame_idx:03d}_obj_{obj_id}.png"
-            )
-            # convert boolean or {0,1} mask to 0/255 uint8
-            img = Image.fromarray((mask_2d.astype(np.uint8) * 255), mode="L")
-            img.save(out_path)
+        # Paint each object's pixels with its ID
+        for obj_id, mask in obj_map.items():
+            # ensure boolean mask
+            canvas[mask.astype(bool)] = obj_id
 
-    print(f"✅ Saved masks to: {directory}")
+        # Save as a single‑channel grayscale PNG
+        Image.fromarray(canvas, mode="L") \
+             .save(out_dir / f"frame_{f_idx:03d}.png")
+
+    print("✅  Saved masks →", out_dir)
