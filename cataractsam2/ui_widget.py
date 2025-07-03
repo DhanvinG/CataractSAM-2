@@ -8,8 +8,8 @@ from IPython.display import HTML, display, clear_output
 from traitlets import Unicode
 from jupyter_bbox_widget import BBoxWidget
 from PIL import Image
-
 from .utils import encode_image, show_mask, show_points, show_box
+from . import utils
 
 __all__ = ["setup", "Object", "Visualize", "Propagate", "Reset"]
 
@@ -78,7 +78,7 @@ def _on_bboxes_changed(change):
     if len(new) <= len(old):
         return
 
-    orig_w, orig_h = globals()["orig_size"]
+    orig_w, orig_h = utils.orig_size
     small_w, small_h = THUMB_SIZE
     scale_x, scale_y = orig_w / small_w, orig_h / small_h
 

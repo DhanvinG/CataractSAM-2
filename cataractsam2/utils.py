@@ -11,6 +11,8 @@ import base64, os
 
 __all__ = ["show_mask", "show_points", "show_box", "encode_image"]
 
+orig_size: tuple[int,int] = (0, 0)
+
 # ‑‑‑ mask / point visualisers ‑‑‑ ------------------------------------------------
 
 def show_mask(mask: np.ndarray, ax, obj_id=None, random_color=False):
