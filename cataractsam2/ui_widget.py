@@ -132,16 +132,16 @@ def _visualize(_=None):
 # ─────────────────────── public API ─────────────────────────
 def Object(frame_idx: int, obj_id: int):
     """Start annotating object <obj_id> on frame <frame_idx>."""
-    global ann_frame_idx, ann_obj_id, frame_path, positive_points, negative_points
+    global ann_frame_idx, ann_obj_id, positive_points, negative_points
     clear_output(wait=True)
     ann_frame_idx, ann_obj_id = frame_idx, obj_id
-    frame_path = os.path.join(video_dir, frame_names[frame_idx])
 
     positive_points.clear()
     negative_points.clear()
-    prompts.clear()
     widget.bboxes = []
-    widget.image  = encode_image(frame_path, size=THUMB_SIZE)
+    widget.image = encode_image(
+        os.path.join(video_dir, frame_names[frame_idx]), size=THUMB_SIZE
+    )
     plot_output.clear_output(wait=True)
     _set_mode("positive")
 

@@ -29,10 +29,14 @@ def show_mask(mask: np.ndarray, ax, obj_id=None, random_color=False):
 def show_points(coords: np.ndarray, labels: np.ndarray, ax, marker_size=200):
     pos = coords[labels == 1]
     neg = coords[labels == 0]
-    ax.scatter(pos[:, 0], pos[:, 1], color="lime", marker="*", s=marker_size,
-               edgecolor="white", linewidth=1.2)
-    ax.scatter(neg[:, 0], neg[:, 1], color="red", marker="*", s=marker_size,
-               edgecolor="white", linewidth=1.2)
+    ax.scatter(
+        pos[:, 0], pos[:, 1], color="green", marker="*", s=marker_size,
+        edgecolor="white", linewidth=1.25
+    )
+    ax.scatter(
+        neg[:, 0], neg[:, 1], color="red", marker="*", s=marker_size,
+        edgecolor="white", linewidth=1.25
+    )
 
 
 def show_box(box, ax):
