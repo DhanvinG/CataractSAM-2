@@ -156,17 +156,15 @@ def Object(frame_idx: int, obj_id: int):
 
 def Visualize(frame_idx: int | None = None):
     """Overlay *all* cached masks on <frame_idx> (defaults to current)."""
-    if frame_idx is not None:
-        global ann_frame_idx
-        ann_frame_idx = frame_idx
+    idx = ann_frame_idx if frame_idx is None else frame_idx
 
-    masks = {oid: m for (f, oid), m in mask_cache.items() if f == ann_frame_idx}
+    masks = {oid: m for (f, oid), m in mask_cache.items() if f == idx}
     if not masks:
         print("⚠️ No masks found: run VISUALIZE on at least one object first.")
         return
 
     plt.figure(figsize=(9,6))
-    plt.imshow(Image.open(os.path.join(video_dir, frame_names[ann_frame_idx])))
+    plt.imshow(Image.open(os.path.join(video_dir, frame_names[idx])))
     plt.axis("off")
     for oid, m in masks.items():
         show_mask((m > 0).numpy(), plt.gca(), obj_id=oid)
