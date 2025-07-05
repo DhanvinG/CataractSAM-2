@@ -34,6 +34,11 @@ Place your video frames as numbered JPEG files under a directory
 from cataractsam2 import Predictor, setup, Object
 
 pred = Predictor("checkpoints/Cataract-SAM2.pth")
+# if Hydra can't locate the YAML, pass it explicitly
+# pred = Predictor(
+#     "checkpoints/Cataract-SAM2.pth",
+#     config_file="cataractsam2/cfg/sam2_hiera_l.yaml",
+# )
 setup(pred, "data/frames")
 Object(0, 1)  # start annotating object 1 on frame 0
 ```
