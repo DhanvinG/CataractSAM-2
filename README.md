@@ -33,19 +33,15 @@ Place your video frames as numbered JPEG files under a directory
 ```python
 from cataractsam2 import Predictor, setup, Object
 
+# the YAML configuration is bundled with the package
 pred = Predictor("checkpoints/Cataract-SAM2.pth")
-# if Hydra can't locate the YAML, pass it explicitly
-# pred = Predictor(
-#     "checkpoints/Cataract-SAM2.pth",
-#     config_file="cataractsam2/cfg/sam2_hiera_l.yaml",
-# )
 setup(pred, "data/frames")
 Object(0, 1)  # start annotating object 1 on frame 0
 ```
 
-`Predictor` passes Hydra the bundled configuration
+`Predictor` automatically loads the bundled configuration
 `cataractsam2/cfg/sam2_hiera_l.yaml`.  If you need to override this file,
-specify `config_file=PATH` when instantiating the class.
+provide `config_file=PATH` when instantiating the class.
 
 Click positive/negative points or draw bounding boxes to guide the model.
 You can visualise intermediate masks with:

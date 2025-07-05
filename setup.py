@@ -5,6 +5,7 @@ setup(
     version="0.1.0",
     packages=find_packages(),
     include_package_data=True,      # ships YAML inside cfg/
+    package_data={"cataractsam2": ["cfg/*.yaml"]},
     python_requires=">=3.10",
     install_requires=[l.strip() for l in open("requirements.txt") if l.strip()],
     author="Dhanvin Ganeshkumar",
