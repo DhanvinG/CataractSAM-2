@@ -27,6 +27,6 @@ def Masks(out_dir: str | os.PathLike):
             # ensure uint8 0/255 values
             mask_u8 = (mask.astype(bool) * 255).astype(np.uint8)
             Image.fromarray(mask_u8, mode="L") \
-                 .save(out_dir / f"frame_{frame_idx:03d}_obj_{obj_id}.png")
+                 .save(out_dir / f"frame_{f_idx:03d}_obj_{obj_id}.png")
 
     print("✅  Saved masks →", out_dir)
