@@ -39,6 +39,10 @@ setup(pred, "data/frames")
 Object(0, 1)  # start annotating object 1 on frame 0
 ```
 
+`Predictor` passes Hydra the bundled configuration
+`cataractsam2/cfg/sam2_hiera_l.yaml`.  If you need to override this file,
+specify `config_file=PATH` when instantiating the class.
+
 Click positive/negative points or draw bounding boxes to guide the model.
 You can visualise intermediate masks with:
 
@@ -61,6 +65,12 @@ Finally export masks for all frames and objects:
 from cataractsam2 import Masks
 Masks("./masks")  # one PNG per frame/object
 ```
+
+**Workflow summary:** clone the repository, run `pip install -e .`, download
+`Cataract-SAM2.pth` with the helper script, then open a Python session and
+create a `Predictor` with your checkpoint.  Initialise the widget on your
+frame directory, refine masks interactively and propagate them through the
+video, finally exporting the results with `Masks("./masks")`.
 
 ## Project structure
 
