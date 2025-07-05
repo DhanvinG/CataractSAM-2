@@ -34,7 +34,7 @@ Place your video frames as numbered JPEG files under a directory
 from cataractsam2 import Predictor
 from cataractsam2.ui_widget import setup, Object
 
-pred = Predictor("checkpoints/sam2_hiera_large.pt")
+pred = Predictor("checkpoints/Cataract-SAM2.pth")
 setup(pred, "data/frames")
 Object(0, 1)  # start annotating object 1 on frame 0
 ```
