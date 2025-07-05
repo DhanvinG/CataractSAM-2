@@ -5,7 +5,18 @@ CFG   = Path(__file__).with_suffix("").parent / "cfg" / "sam2_hiera_l.yaml"
 
 class Predictor:
     """
-    Thin wrapper around Meta’s build_sam2_video_predictor.
+    Thin wrapper around Meta’s ``build_sam2_video_predictor``.
+
+    Parameters
+    ----------
+    weights : str | Path
+        Path to the model checkpoint.
+    config_file : str | Path, optional
+        YAML configuration used to construct the predictor. Defaults to the
+        bundled ``sam2_hiera_l.yaml``.
+    device : str, optional
+        Target device for inference.
+
     Usage
     -----
     >>> pred = Predictor("checkpoints/Cataract-SAM2.pth", device="cuda")
