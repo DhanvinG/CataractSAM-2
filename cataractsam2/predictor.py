@@ -8,7 +8,7 @@ class Predictor:
     Thin wrapper around Meta’s build_sam2_video_predictor.
     Usage
     -----
-    >>> pred = Predictor("checkpoints/sam2_hiera_large.pt", device="cuda")
+    >>> pred = Predictor("checkpoints/Cataract-SAM2.pth", device="cuda")
     >>> state = pred.init_state(video_path="data/frames")
     """
     # ----------------------------------------------------
