@@ -21,7 +21,8 @@ python examples/download_checkpoints.py
 
 The environment requires Python 3.10+ and the packages listed in
 `requirements.txt`.  The weight download script fetches the public SAM-2
-checkpoints released by Meta.  They are stored in `checkpoints/` and are
+checkpoint from the `DhanvinG/Cataract-SAM2` repository on Hugging Face.
+It is stored in `checkpoints/` and is
 needed before using the library.
 
 ## Quick start
@@ -65,7 +66,7 @@ Masks("./masks")  # one PNG per frame/object
 
 - `cataractsam2/` – library code wrapping SAM-2 and the widget interface.
 - `examples/download_checkpoints.py` – helper script to obtain SAM-2
-  weights from Meta.
+  weights from Hugging Face.
 - `data/` – place your frame sequences here (not included).
 
 ## Acknowledgements

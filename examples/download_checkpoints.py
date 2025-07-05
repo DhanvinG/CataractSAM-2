@@ -1,11 +1,22 @@
-import pathlib, requests
+"""Download SAM-2 weights from Hugging Face.
 
-URL  = "https://dl.fbaipublicfiles.com/segment_anything_2/072824/sam2_hiera_large.pt"
-dest = pathlib.Path(__file__).resolve().parents[1] / "checkpoints" / "sam2_hiera_large.pt"
-dest.parent.mkdir(parents=True, exist_ok=True)
+This script fetches the pretrained checkpoint from the public
+"DhanvinG/Cataract-SAM2" repository and places it in ``checkpoints/``.
+It mirrors the behaviour of the original download script but uses
+``huggingface_hub`` instead of a direct HTTP request.
+"""
 
-print("⇣", URL)
-with requests.get(URL, stream=True) as r, open(dest, "wb") as f:
-    for chunk in r.iter_content(8192):
-        f.write(chunk)
-print("✔ downloaded →", dest)
+from pathlib import Path
+from huggingface_hub import hf_hub_download
+
+
+dest = Path(__file__).resolve().parents[1] / "checkpoints"
+dest.mkdir(parents=True, exist_ok=True)
+
+print("⇣ huggingface")
+hf_hub_download(
+    repo_id="DhanvinG/Cataract-SAM2",
+    filename="Cataract-SAM2.pth",
+    local_dir=dest,
+)
+print("✔ downloaded →", dest / "Cataract-SAM2.pth")
