@@ -1,7 +1,9 @@
 from pathlib import Path
 from sam2.build_sam import build_sam2_video_predictor
 
-CFG   = Path(__file__).with_suffix("").parent / "cfg" / "sam2_hiera_l.yaml"
+# Default configuration packaged with the library.  Using the ``pkg://``
+# scheme makes Hydra load the YAML from this installed module.
+CFG   = "pkg://cataractsam2/cfg/sam2_hiera_l.yaml"
 
 class Predictor:
     """
@@ -30,8 +32,9 @@ class Predictor:
         device: str = "cuda",
     ):
         """Wrap ``build_sam2_video_predictor`` with sane defaults."""
+        config_file = str(config_file)
         self.pred = build_sam2_video_predictor(
-            config_file=str(Path(config_file)),
+            config_file=config_file,
             ckpt=str(weights),
             device=device,
         )
