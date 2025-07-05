@@ -13,8 +13,11 @@ class Predictor:
     """
     # ----------------------------------------------------
     def __init__(self, weights: str | Path, device: str = "cuda"):
+        # Upstream ``build_sam2_video_predictor`` now expects ``config_file``
+        # instead of ``model_cfg``. Match the new signature so the wrapper
+        # remains compatible with the latest ``sam-2`` package.
         self.pred = build_sam2_video_predictor(
-            model_cfg=str(CFG),
+            config_file=str(CFG),
             ckpt=str(weights),
             device=device,
         )
