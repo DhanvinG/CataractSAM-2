@@ -81,22 +81,9 @@ video, finally exporting the results with `Masks("./masks")`.
 
 ## Hydra configuration
 
-The library ships its default configuration under `cataractsam2/cfg` and
-registers it with Hydra through a small `SearchPathPlugin`.  The plugin is
-declared in `setup.py` so Hydra can automatically discover the bundled
-YAML files:
-
 ```ini
 [options.entry_points]
 hydra.searchpath =
-    cataractsam2_cfg = cataractsam2.search_path_plugin:CataractSAM2SearchPathPlugin
-```
-
-After running `pip install -e .`, the `sam2_hiera_l.yaml` configuration will
-be available without any additional setup.  If Hydra reports a
-`MissingConfigException`, ensure that the editable installation completed
-successfully.
-
 ## Acknowledgements
 
 CataractSAM-2 builds upon Meta's Segment Anything Model 2.  The code is
