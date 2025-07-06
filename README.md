@@ -79,6 +79,21 @@ video, finally exporting the results with `Masks("./masks")`.
   weights from Hugging Face.
 - `data/` – place your frame sequences here (not included).
 
+## Hydra configuration
+
+If Hydra reports a `MissingConfigException` when creating a `Predictor`,
+ensure that the package's `cfg/` directory is registered as a search path.
+The project does this via an entry point in `setup.py`:
+
+```ini
+[options.entry_points]
+hydra.searchpath =
+    cataractsam2_cfg = pkg://cataractsam2/cfg
+```
+
+Run `pip install -e .` after cloning (or when the entry point changes) so
+that Hydra can locate `sam2_hiera_l.yaml` automatically.
+
 ## Acknowledgements
 
 CataractSAM-2 builds upon Meta's Segment Anything Model 2.  The code is

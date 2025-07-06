@@ -8,6 +8,11 @@ setup(
     package_data={"cataractsam2": ["cfg/*.yaml"]},
     python_requires=">=3.10",
     install_requires=[l.strip() for l in open("requirements.txt") if l.strip()],
+    entry_points={
+        "hydra.searchpath": [
+            "cataractsam2_cfg=cataractsam2/cfg",
+        ],
+    },
     author="Dhanvin Ganeshkumar",
     license="Apache-2.0",
     description="Domain‑adapted SAM‑2 for cataract surgery videos",
