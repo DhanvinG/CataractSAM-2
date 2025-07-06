@@ -10,7 +10,7 @@ setup(
     install_requires=[l.strip() for l in open("requirements.txt") if l.strip()],
     entry_points={
         "hydra.searchpath": [
-            "cataractsam2_cfg=cataractsam2/cfg",
+            "cataractsam2_cfg=pkg://cataractsam2/cfg",
         ],
     },
     author="Dhanvin Ganeshkumar",
