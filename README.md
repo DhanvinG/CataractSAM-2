@@ -83,12 +83,13 @@ video, finally exporting the results with `Masks("./masks")`.
 
 If Hydra reports a `MissingConfigException` when creating a `Predictor`,
 ensure that the package's `cfg/` directory is registered as a search path.
-The project does this via an entry point in `setup.py`:
+The project does this via a simple `SearchPathPlugin` registered in
+`setup.py`:
 
 ```ini
 [options.entry_points]
 hydra.searchpath =
-    cataractsam2_cfg = pkg://cataractsam2/cfg
+    cataractsam2_cfg = cataractsam2.search_path_plugin:CataractSAM2SearchPathPlugin
 ```
 
 Run `pip install -e .` after cloning (or when the entry point changes) so
