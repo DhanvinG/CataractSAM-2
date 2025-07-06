@@ -81,20 +81,9 @@ video, finally exporting the results with `Masks("./masks")`.
 
 ## Hydra configuration
 
-If Hydra reports a `MissingConfigException` when creating a `Predictor`,
-ensure that the package's Hydra search path plugin is installed.  The
-plugin in `cataractsam2/search_path_plugin.py` appends
-`pkg://cataractsam2/cfg` via the following entry point:
-
 ```ini
 [options.entry_points]
 hydra.searchpath =
-    cataractsam2_cfg=cataractsam2.search_path_plugin:CataractSAM2SearchPathPlugin
-```
-
-Run `pip install -e .` after cloning (or whenever `setup.py` or the plugin
-changes) so that Hydra can locate `sam2_hiera_l.yaml` automatically.
-
 ## Acknowledgements
 
 CataractSAM-2 builds upon Meta's Segment Anything Model 2.  The code is
