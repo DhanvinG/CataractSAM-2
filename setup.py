@@ -9,10 +9,11 @@ setup(
     python_requires=">=3.10",
     install_requires=[l.strip() for l in open("requirements.txt") if l.strip()],
     entry_points={
-        "hydra.searchpath": [
-            "cataractsam2_cfg=pkg://cataractsam2/cfg",
-        ],
-    },
+    "hydra.searchpath": [
+      # point to the module path and class name you just created
+      "cataractsam2_cfg=cataractsam2.search_path_plugin:CataractSAM2SearchPathPlugin"
+    ]
+  },
     author="Dhanvin Ganeshkumar",
     license="Apache-2.0",
     description="Domain‑adapted SAM‑2 for cataract surgery videos",
