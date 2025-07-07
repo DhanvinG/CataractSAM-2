@@ -14,12 +14,14 @@ analysis.
 git clone --recurse-submodules https://github.com/DhanvinG/Cataract-SAM2.git
 cd Cataract-SAM2
 git submodule update --init --recursive  # fetch Meta's SAM-2 code
-pip install -e sam2
+pip install -e segment_anything_2
 pip install -e .
 
 # download the pretrained SAM-2 weights (~1.1 GB)
 python examples/download_checkpoints.py
 ```
+
+The SAM-2 submodule now lives in `segment_anything_2/`.
 
 The environment requires Python 3.10+ and the packages listed in
 `requirements.txt`.  The weight download script fetches the public SAM-2
@@ -68,7 +70,7 @@ from cataractsam2 import Masks
 Masks("./masks")  # one PNG per frame/object
 ```
 
-**Workflow summary:** clone the repository with submodules, install `sam2`
+**Workflow summary:** clone the repository with submodules, install `segment_anything_2`
 and `cataractsam2` in editable mode, download `Cataract-SAM2.pth` with the
 helper script, then open a Python session and
 create a `Predictor` with your checkpoint.  Initialise the widget on your
@@ -78,12 +80,12 @@ video, finally exporting the results with `Masks("./masks")`.
 ### Using the vendored SAM-2 (Colab way)
 
 This project ships Meta's original SAM-2 repository as a git submodule
-under `sam2/`.  Installing it in editable mode enables the exact CLI
+under `segment_anything_2/`.  Installing it in editable mode enables the exact CLI
 exposed by the upstream code.
 
 ```bash
 git submodule update --init --recursive
-pip install -e sam2
+pip install -e segment_anything_2
 ```
 
 Then build the predictor directly:
