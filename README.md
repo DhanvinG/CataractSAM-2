@@ -14,7 +14,7 @@ analysis.
 git clone --recurse-submodules https://github.com/DhanvinG/Cataract-SAM2.git
 cd Cataract-SAM2
 git submodule update --init --recursive  # fetch Meta's SAM-2 code
-pip install -e sam2
+pip install -e ./segment_anything_2
 pip install -e .
 
 # download the pretrained SAM-2 weights (~1.1 GB)
