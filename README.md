@@ -83,7 +83,7 @@ exposed by the upstream code.
 
 ```bash
 git submodule update --init --recursive
-pip install -e sam2
+pip install -e ./segment_anything_2
 ```
 
 Then build the predictor directly:
