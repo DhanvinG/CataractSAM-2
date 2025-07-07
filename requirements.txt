@@ -7,3 +7,4 @@ opencv-python
 jupyter-bbox-widget==0.6.0
 # jupyter-bbox-widget @ git+https://github.com/roboflow/bbox-widget.git
 huggingface-hub
+-e ./segment_anything_2
