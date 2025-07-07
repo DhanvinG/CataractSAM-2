@@ -1,9 +1,11 @@
 from pathlib import Path
 from sam2.build_sam import build_sam2_video_predictor
 
-# Default configuration packaged with the library.  Using the ``pkg://``
-# scheme makes Hydra load the YAML from this installed module.
-CFG   = "pkg://cataractsam2/cfg/sam2_hiera_l.yaml"
+# Default configuration packaged with the library.  Convert the path to a
+# ``file://`` URI so Hydra can load it directly without relying on the search
+# path plugin.
+CFG_PATH = Path(__file__).parent / "cfg" / "sam2_hiera_l.yaml"
+CFG = CFG_PATH.resolve().as_uri()
 
 class Predictor:
     """
