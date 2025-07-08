@@ -23,6 +23,7 @@ THUMB_SIZE = (640, 360)
 
 ann_frame_idx  = 0
 ann_obj_id     = 1
+frame_path     = ""
 
 positive_points: list[tuple[float, float]] = []
 negative_points: list[tuple[float, float]] = []
@@ -66,6 +67,11 @@ def setup(pred, frames_dir: str):
     widget.add_traits(mode=Unicode("positive"))
     widget.observe(_on_bboxes_changed, names="bboxes")
 
+    # prepare the first frame for the widget
+    global frame_path
+    frame_path = os.path.join(video_dir, frame_names[ann_frame_idx])
+    widget.image = encode_image(frame_path)
+
     # Hook up the buttons
     pos_btn.on_click(lambda _: _set_mode("positive"))
     neg_btn.on_click(lambda _: _set_mode("negative"))
@@ -74,17 +80,20 @@ def setup(pred, frames_dir: str):
 
 # ─────────────────────── internal callbacks ───────────────────
 def _on_bboxes_changed(change):
-    new, old = change.new or [], change.old or []
+    new = change.new or []
+    old = change.old or []
     if len(new) <= len(old):
         return
 
     orig_w, orig_h = utils.orig_size
     small_w, small_h = THUMB_SIZE
-    scale_x, scale_y = orig_w / small_w, orig_h / small_h
+    scale_x = orig_w / small_w
+    scale_y = orig_h / small_h
 
     for box in new[len(old):]:
         x_small, y_small = box["x"], box["y"]
-        x_orig, y_orig = x_small * scale_x, y_small * scale_y
+        x_orig = x_small * scale_x
+        y_orig = y_small * scale_y
         if widget.mode == "positive":
             positive_points.append((x_orig, y_orig))
         else:
@@ -94,96 +103,141 @@ def _on_bboxes_changed(change):
 
 def _set_mode(m: str):
     widget.mode = m
-    pos_btn.style.button_color = "#28a745" if m == "positive" else None
-    neg_btn.style.button_color = "#d9534f" if m == "negative" else None
+    pos_btn.style.button_color = None
+    neg_btn.style.button_color = None
     vis_btn.style.button_color = None
-    banner.value = f'<h3 style="margin:0;color:{"#28a745" if m=="positive" else "#d9534f"}">MODE: {m.upper()}</h3>'
+    if m == "positive":
+        pos_btn.style.button_color = "#28a745"
+        banner.value = '<h3 style="margin:0;color:#28a745">MODE: POSITIVE</h3>'
+    else:
+        neg_btn.style.button_color = "#d9534f"
+        banner.value = '<h3 style="margin:0;color:#d9534f">MODE: NEGATIVE</h3>'
 
 def _visualize(_=None):
     """Internal handler for the VISUALIZE button."""
+    pos_btn.style.button_color = None
+    neg_btn.style.button_color = None
+    vis_btn.style.button_color = "#ffc107"
+
     with plot_output:
         plot_output.clear_output(wait=True)
-        pts_pos = np.array(positive_points, dtype=np.float32) if positive_points else np.zeros((0,2))
-        pts_neg = np.array(negative_points, dtype=np.float32) if negative_points else np.zeros((0,2))
+
+        pts_pos = (
+            np.array(positive_points, dtype=np.float32)
+            if positive_points
+            else np.zeros((0, 2))
+        )
+        pts_neg = (
+            np.array(negative_points, dtype=np.float32)
+            if negative_points
+            else np.zeros((0, 2))
+        )
         points = np.vstack([pts_pos, pts_neg])
         labels = np.concatenate([
             np.ones(len(pts_pos), dtype=np.int32),
-            np.zeros(len(pts_neg), dtype=np.int32)
+            np.zeros(len(pts_neg), dtype=np.int32),
         ])
 
-        prompts[ann_obj_id] = (points, labels)
-        _, oids, logits = predictor.add_new_points_or_box(
+        prompts[ann_obj_id] = points, labels
+        _, out_obj_ids, out_mask_logits = predictor.add_new_points_or_box(
             inference_state=inference_state,
             frame_idx=ann_frame_idx,
             obj_id=ann_obj_id,
             points=points,
             labels=labels,
         )
-        for i, oid in enumerate(oids):
-            mask_cache[(ann_frame_idx, oid)] = logits[i].detach().cpu()
 
-        # Show full‑res overlay
-        plt.figure(figsize=(9,6))
-        plt.imshow(Image.open(os.path.join(video_dir, frame_names[ann_frame_idx])))
+        for i, oid in enumerate(out_obj_ids):
+            mask_cache[(ann_frame_idx, oid)] = out_mask_logits[i].detach().cpu()
+
+        plt.figure(figsize=(9, 6))
+        plt.title(f"Frame {ann_frame_idx}")
+        plt.imshow(Image.open(frame_path))
         plt.axis("off")
         show_points(points, labels, plt.gca())
-        for i, oid in enumerate(oids):
+        for i, oid in enumerate(out_obj_ids):
             if oid == ann_obj_id:
-                show_mask((logits[i] > 0).cpu().numpy(), plt.gca(), obj_id=oid)
+                show_mask((out_mask_logits[i] > 0).cpu().numpy(), plt.gca(), obj_id=oid)
         plt.show()
 
 # ─────────────────────── public API ─────────────────────────
 def Object(frame_idx: int, obj_id: int):
-    """Start annotating object <obj_id> on frame <frame_idx>."""
-    global ann_frame_idx, ann_obj_id, positive_points, negative_points
-    clear_output(wait=True)
-    ann_frame_idx, ann_obj_id = frame_idx, obj_id
+    """Switch to <frame_idx> and start annotating <obj_id> from scratch."""
+    global ann_frame_idx, ann_obj_id, frame_path
+    global positive_points, negative_points
 
-    positive_points.clear()
-    negative_points.clear()
+    clear_output(wait=True)
+
+    ann_frame_idx = frame_idx
+    ann_obj_id = obj_id
+    frame_path = os.path.join(video_dir, frame_names[frame_idx])
+
+    positive_points = []
+    negative_points = []
     widget.bboxes = []
-    widget.image = encode_image(
-        os.path.join(video_dir, frame_names[frame_idx]), size=THUMB_SIZE
-    )
+    widget.image = encode_image(frame_path)
     plot_output.clear_output(wait=True)
     _set_mode("positive")
 
-    display(HTML("""
-      <style>#ctlBox{position:fixed;top:12px;right:12px;z-index:9999;
-      background:#111;padding:6px 10px;border-radius:8px;box-shadow:0 0 4px #0008;}
-      </style><div id="ctlBox"></div>
-    """))
+    display(HTML(
+        """
+    <style>
+      #ctlBox {
+        position:fixed; top:12px; right:12px; z-index:9999;
+        background:#111; padding:6px 10px; border-radius:8px;
+        box-shadow:0 0 4px #0008;
+      }
+    </style>
+    <div id=\"ctlBox\"></div>
+    """
+    ))
+
     display(ipw.VBox([banner, ipw.HBox([pos_btn, neg_btn, vis_btn])]), target="ctlBox")
-    display(widget, plot_output)
-    print(f"🆕 Object {obj_id} on frame {frame_idx} — add clicks & press VISUALIZE")
+
+    display(widget)
+    display(plot_output)
+
+    print(f"🆕  Object {obj_id} on frame {frame_idx} — add clicks and press VISUALIZE")
 
 def Visualize(frame_idx: int | None = None):
-    """Overlay *all* cached masks on <frame_idx> (defaults to current)."""
-    idx = ann_frame_idx if frame_idx is None else frame_idx
+    """Overlay *all* objects whose masks we've cached on <frame_idx>."""
+    if frame_idx is None:
+        frame_idx = ann_frame_idx
 
-    masks = {oid: m for (f, oid), m in mask_cache.items() if f == idx}
+    masks = {
+        oid: logits for (fid, oid), logits in mask_cache.items() if fid == frame_idx
+    }
     if not masks:
-        print("⚠️ No masks found: run VISUALIZE on at least one object first.")
+        print(
+            f"⚠️  No cached masks for frame {frame_idx}. "
+            "Run VISUALIZE on at least one object first."
+        )
         return
 
-    plt.figure(figsize=(9,6))
-    plt.imshow(Image.open(os.path.join(video_dir, frame_names[idx])))
+    plt.figure(figsize=(9, 6))
+    plt.title(f"Frame {frame_idx}")
+    plt.imshow(Image.open(os.path.join(video_dir, frame_names[frame_idx])))
     plt.axis("off")
-    for oid, m in masks.items():
-        show_mask((m > 0).numpy(), plt.gca(), obj_id=oid)
+    for oid, logits in masks.items():
+        show_mask((logits > 0).numpy(), plt.gca(), obj_id=oid)
     plt.show()
 
 def Reset():
-    """Clear all annotations and reset the predictor."""
-    global inference_state, positive_points, negative_points, mask_cache, prompts
+    """Hard‑reset the entire annotation session."""
+    global inference_state, positive_points, negative_points
+    global mask_cache, prompts
+
     predictor.reset_state(inference_state)
-    positive_points.clear()
-    negative_points.clear()
-    prompts.clear()
+
     mask_cache.clear()
+    prompts.clear()
+    positive_points = []
+    negative_points = []
+
     widget.bboxes = []
     plot_output.clear_output(wait=True)
     clear_output(wait=True)
+
     print("🧹 Workspace reset — ready to annotate a new object.")
 
 def Propagate(vis_frame_stride: int):
