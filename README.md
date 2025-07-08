@@ -55,10 +55,11 @@ Place your video frames as numbered JPEG files under the `data` directory
 ```python
 from sam2.build_sam import build_sam2_video_predictor
 pred = build_sam2_video_predictor(model_cfg, "checkpoints/Cataract-SAM2.pth", device="cuda")
+setup(pred, "data")
 Object(0, 1)  # start annotating object 1 on frame 0
 ```
 
-Click positive/negative points or draw bounding boxes to guide the model. 
+Click positive/negative points to guide the model segmentation. 
 
 You can visualize intermediate masks by pressing the `VISUALIZE` button in the notebook UI.
 
