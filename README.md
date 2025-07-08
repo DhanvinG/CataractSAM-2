@@ -18,7 +18,11 @@ We introduce CataractSAM‑2, a domain-adapted extension of [SAM‑2](https://gi
   - ✅ Interactive inference widgets and scripts
   - ✅ Training notebooks and fine-tuning code  
 
-<img width="1920" height="1440" alt="Image" src="https://github.com/user-attachments/assets/0fb5440e-372a-40fe-99f0-d580e002ba47" />
+## Load from 🤗 Hugging Face
+
+We released our pretrain weight [here](https://huggingface.co/DhanvinG/Cataract-SAM2/tree/main)
+
+
 ## Installation
 
 ```bash
