@@ -67,6 +67,11 @@ def setup(pred, frames_dir: str):
     widget.add_traits(mode=Unicode("positive"))
     widget.observe(_on_bboxes_changed, names="bboxes")
 
+    # prepare the first frame for the widget
+    global frame_path
+    frame_path = os.path.join(video_dir, frame_names[ann_frame_idx])
+    widget.image = encode_image(frame_path)
+
     # Hook up the buttons
     pos_btn.on_click(lambda _: _set_mode("positive"))
     neg_btn.on_click(lambda _: _set_mode("negative"))
@@ -110,6 +115,10 @@ def _set_mode(m: str):
 
 def _visualize(_=None):
     """Internal handler for the VISUALIZE button."""
+    pos_btn.style.button_color = None
+    neg_btn.style.button_color = None
+    vis_btn.style.button_color = "#ffc107"
+
     with plot_output:
         plot_output.clear_output(wait=True)
 
