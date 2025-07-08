@@ -24,7 +24,7 @@ We released our pretrain weight [here](https://huggingface.co/DhanvinG/Cataract-
 
 
 ## Installation
-
+This project ships Meta's original SAM-2 repository as a git submodule under sam2/. Installing it in editable mode enables the exact CLI exposed by the upstream code.
 ```bash
 # clone the repository and install in editable mode
 git clone --recurse-submodules https://github.com/DhanvinG/Cataract-SAM2.git
@@ -37,7 +37,7 @@ pip install -e .
 > Restart your Python session or runtime to ensure imports work.
 > This is required for Hydra and editable installs to be registered correctly
 ```
-# download the pretrained SAM-2 weights (~1.1 GB)
+# download the pretrained SAM-2 weights from Hugging Face
 python examples/download_checkpoints.py
 ```
 
@@ -49,24 +49,19 @@ needed before using the library.
 
 ## Quick start
 
-Place your video frames as numbered JPEG files under a directory
-(e.g. `data/frames/000.jpg`, `001.jpg`, …).  Then launch a Python session:
+Place your video frames as numbered JPEG files under the `data` directory
+(e.g. `data/frames/000.jpg`, `001.jpg`, …). Then build the predictor directly:
 
 ```python
-from cataractsam2 import Predictor, setup, Object
-
-# the YAML configuration is bundled with the package
-pred = Predictor("checkpoints/Cataract-SAM2.pth")
-setup(pred, "data/frames")
+from sam2.build_sam import build_sam2_video_predictor
+pred = build_sam2_video_predictor(model_cfg, "checkpoints/Cataract-SAM2.pth", device="cuda")
 Object(0, 1)  # start annotating object 1 on frame 0
 ```
 
-`Predictor` automatically loads the bundled configuration
-`cataractsam2/cfg/sam2_hiera_l.yaml`.  If you need to override this file,
-provide `config_file=PATH` when instantiating the class.
+Click positive/negative points or draw bounding boxes to guide the model. 
 
-Click positive/negative points or draw bounding boxes to guide the model.
-You can visualise intermediate masks with:
+You can visualize intermediate masks by pressing the `VISUALIZE` button in the notebook UI.
+
 
 ```python
 from cataractsam2.ui_widget import Visualize
@@ -78,7 +73,7 @@ sequence:
 
 ```python
 from cataractsam2.ui_widget import Propagate
-Propagate(vis_frame_stride=10)  # show every 10th frame for a quick check
+Propagate(10)  #e.g. show every 10th frame for a quick check
 ```
 
 Finally export masks for all frames and objects:
@@ -87,35 +82,6 @@ Finally export masks for all frames and objects:
 from cataractsam2 import Masks
 Masks("./masks")  # one PNG per frame/object
 ```
-
-**Workflow summary:** clone the repository with submodules, install `sam2`
-and `cataractsam2` in editable mode, download `Cataract-SAM2.pth` with the
-helper script, then open a Python session and
-create a `Predictor` with your checkpoint.  Initialise the widget on your
-frame directory, refine masks interactively and propagate them through the
-video, finally exporting the results with `Masks("./masks")`.
-
-### Using the vendored SAM-2 (Colab way)
-
-This project ships Meta's original SAM-2 repository as a git submodule
-under `sam2/`.  Installing it in editable mode enables the exact CLI
-exposed by the upstream code.
-
-```bash
-git submodule update --init --recursive
-pip install -e ./segment_anything_2
-```
-
-Then build the predictor directly:
-
-```python
-from sam2.build_sam import build_sam2_video_predictor
-pred = build_sam2_video_predictor(model_cfg, "checkpoints/Cataract-SAM2.pth", device="cuda")
-```
-
-`sam2` already adds its `configs/` directory to Hydra's search path, so the
-configuration file can be referenced without extra setup.  This mirrors the
-workflow typically used in Google Colab notebooks.
 
 ## Project structure
 
