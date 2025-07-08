@@ -29,10 +29,14 @@ We released our pretrain weight [here](https://huggingface.co/DhanvinG/Cataract-
 # clone the repository and install in editable mode
 git clone --recurse-submodules https://github.com/DhanvinG/Cataract-SAM2.git
 cd Cataract-SAM2
-git submodule update --init --recursive  # fetch Meta's SAM-2 code
+git submodule update --init --recursive
 pip install -e ./segment_anything_2
 pip install -e .
-
+```
+> [!WARNING]
+> Restart your Python session or runtime to ensure imports work.
+> This is required for Hydra and editable installs to be registered correctly
+```
 # download the pretrained SAM-2 weights (~1.1 GB)
 python examples/download_checkpoints.py
 ```
