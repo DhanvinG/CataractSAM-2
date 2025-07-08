@@ -106,7 +106,10 @@ def _visualize(_=None):
         pts_pos = np.array(positive_points, dtype=np.float32) if positive_points else np.zeros((0,2))
         pts_neg = np.array(negative_points, dtype=np.float32) if negative_points else np.zeros((0,2))
         points = np.vstack([pts_pos, pts_neg])
-        labels = np.concatenate([np.ones(len(pts_pos)), np.zeros(len(pts_neg))], dtype=int)
+        labels = np.concatenate([
+            np.ones(len(pts_pos), dtype=np.int32),
+            np.zeros(len(pts_neg), dtype=np.int32)
+        ])
 
         prompts[ann_obj_id] = (points, labels)
         _, oids, logits = predictor.add_new_points_or_box(
