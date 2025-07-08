@@ -24,7 +24,7 @@ We released our pretrain weight [here](https://huggingface.co/DhanvinG/Cataract-
 
 
 ## Installation
-This project ships Meta's original SAM-2 repository as a git submodule under sam2/. Installing it in editable mode enables the exact CLI exposed by the upstream code.
+This project ships Meta's original SAM-2 repository as a git submodule under `sam2/`. Installing it in editable mode enables the exact CLI exposed by the upstream code.
 ```bash
 # clone the repository and install in editable mode
 git clone --recurse-submodules https://github.com/DhanvinG/Cataract-SAM2.git
