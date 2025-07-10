@@ -1,4 +1,4 @@
-# CataractSAM-2 Enhancing Transferability and Real-Time Ophthalmic Surgery Segmentation Through Automated Ground-Truth Generation
+# CataractSAM-2: Enhancing Transferability and Real-Time Ophthalmic Surgery Segmentation Through Automated Ground-Truth Generation
 
 We introduce CataractSAM‑2, a domain-adapted extension of [SAM‑2](https://github.com/facebookresearch/sam2) optimized for high-precision segmentation in cataract and related ophthalmic surgeries. To preserve generalizable visual priors, we freeze the SAM‑2 image encoder and fine-tune only the prompt encoder and mask decoder on the [Cataract‑1K dataset](https://github.com/Negin-Ghamsarian/Cataract-1K). To address the time-consuming nature of manual frame-by-frame annotation, we develop a human-in-the-loop interactive annotation framework built on the `SAM2VideoPredictor`, significantly accelerating ground-truth generation.
 
