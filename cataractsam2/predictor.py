@@ -37,7 +37,7 @@ class Predictor:
         config_file = str(config_file)
         self.pred = build_sam2_video_predictor(
             config_file=config_file,
-            ckpt=str(weights),
+            ckpt_path=str(weights), 
             device=device,
         )
 
