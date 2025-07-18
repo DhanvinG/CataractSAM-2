@@ -237,7 +237,7 @@ def Reset():
     plot_output.clear_output(wait=True)
     clear_output(wait=True)
 
-    print("🧹 Workspace reset — ready to annotate a new object.")
+    print("🧹 Workspace reset. Ready to annotate a new object.")
 
 def Propagate(vis_frame_stride: int):
     """Propagate your current objects through the entire video."""
