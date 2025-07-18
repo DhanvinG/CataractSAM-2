@@ -197,7 +197,6 @@ def Object(frame_idx: int, obj_id: int):
     display(widget)
     display(plot_output)
 
-    print(f"🆕  Object {obj_id} on frame {frame_idx} — add clicks and press VISUALIZE")
 
 def Visualize(frame_idx: int | None = None):
     """Overlay *all* objects whose masks we've cached on <frame_idx>."""
