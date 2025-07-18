@@ -10,7 +10,7 @@ def Masks(out_dir: str | os.PathLike):
     """Write propagated masks as PNG files.
 
     Uses the global ``video_segments`` created by :func:`Propagate` and
-    writes one PNG per ``(frame, object)`` to ``out_dir``.  Each PNG is a
+    writes one PNG per ``(frame, object)`` to ``out_dir``. Each PNG is a
     single-channel image where mask pixels have value 255 and background
     is 0.
     """
@@ -24,8 +24,12 @@ def Masks(out_dir: str | os.PathLike):
         if not obj_map:
             continue
         for obj_id, mask in obj_map.items():
-            # ensure uint8 0/255 values
-            mask_u8 = (mask.astype(bool) * 255).astype(np.uint8)
+            # ✅ Ensure the mask is 2D
+            mask_2d = np.squeeze(mask)
+            if mask_2d.ndim != 2:
+                mask_2d = mask_2d.squeeze(0)
+
+            mask_u8 = (mask_2d.astype(np.uint8) * 255)
             Image.fromarray(mask_u8, mode="L") \
                  .save(out_dir / f"frame_{f_idx:03d}_obj_{obj_id}.png")
 
