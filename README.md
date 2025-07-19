@@ -94,6 +94,7 @@ Masks("./masks")  # one PNG per frame/object
 - `examples/download_checkpoints.py` – helper script to obtain SAM-2
   weights from Hugging Face.
 - `data/` – place your frame sequences here (example frames included).
+- `notebooks/` – Contains an end-to-end demo notebook for using CataractSAM2 on video frames.
 
 CataractSAM-2 builds upon Meta's Segment Anything Model 2.  The code is
 licensed under the Apache License 2.0; see the `LICENSE` file for details.
