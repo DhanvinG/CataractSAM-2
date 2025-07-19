@@ -20,7 +20,7 @@ We introduce CataractSAM‑2, a domain-adapted extension of [SAM‑2](https://gi
 
 ## Tutorial
 
-https://github.com/user-attachments/assets/b4653218-0564-4382-ad58-9830e488c5a0
+https://github.com/user-attachments/assets/daf076f8-af5a-44ce-a793-1e422428ef33
 
 ## Load from 🤗 Hugging Face
 
