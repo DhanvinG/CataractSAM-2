@@ -93,7 +93,7 @@ Masks("./masks")  # one PNG per frame/object
 - `cataractsam2/` – library code wrapping SAM-2 and the widget interface.
 - `examples/download_checkpoints.py` – helper script to obtain SAM-2
   weights from Hugging Face.
-- `data/` – place your frame sequences here (not included).
+- `data/` – place your frame sequences here (example frames included).
 
 ## Hydra configuration
 
