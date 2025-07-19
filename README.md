@@ -95,12 +95,5 @@ Masks("./masks")  # one PNG per frame/object
   weights from Hugging Face.
 - `data/` – place your frame sequences here (example frames included).
 
-## Hydra configuration
-
-```ini
-[options.entry_points]
-hydra.searchpath =
-## Acknowledgements
-
 CataractSAM-2 builds upon Meta's Segment Anything Model 2.  The code is
 licensed under the Apache License 2.0; see the `LICENSE` file for details.
