@@ -15,8 +15,8 @@ We introduce CataractSAM‑2, a domain-adapted extension of [SAM‑2](https://gi
 - **Open-Source Toolkit**  
   This repo includes:
   - ✅ Pretrained weights (`.pth`)
-  - ✅ Interactive inference widgets and scripts
-  - ✅ Training notebooks and fine-tuning code  
+  - ✅ Interactive inference widgets
+  - ✅ Demo notebook
 
 ## Tutorial
 
