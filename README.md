@@ -8,7 +8,7 @@ We introduce CataractSAM‑2, a domain-adapted extension of [SAM‑2](https://gi
 ## Overview
 
 - **CataractSAM‑2 Model**  
-  A fine-tuned, domain-adapted variant of Meta’s SAM‑2, trained specifically for ophthalmic surgery segmentation. It achieves **90–96% mean IoU** and runs in real time at **15 FPS** across surgical videos.
+  A fine-tuned, domain-adapted variant of Meta’s SAM‑2, trained specifically for ophthalmic surgery segmentation. It achieves **90–95% mean IoU** and runs in real time at **15 FPS** across surgical videos.
 
 - **Interactive Ground-Truth Annotation Framework**  
   A lightweight, point-guided annotation system leveraging the `SAM2VideoPredictor`. Users provide sparse point-based prompts, and the model propagates accurate masks through the video, cutting annotation time by **over 80%**.
