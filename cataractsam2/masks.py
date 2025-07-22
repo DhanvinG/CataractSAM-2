@@ -7,13 +7,6 @@ import numpy as np
 __all__ = ["Masks"]
 
 def Masks(out_dir: str | os.PathLike):
-    """Write propagated masks as PNG files.
-
-    Uses the global ``video_segments`` created by :func:`Propagate` and
-    writes one PNG per ``(frame, object)`` to ``out_dir``. Each PNG is a
-    single-channel image where mask pixels have value 255 and background
-    is 0.
-    """
 
     from .ui_widget import video_segments  # lazy import to avoid cycles
 
@@ -24,7 +17,6 @@ def Masks(out_dir: str | os.PathLike):
         if not obj_map:
             continue
         for obj_id, mask in obj_map.items():
-            # ✅ Ensure the mask is 2D
             mask_2d = np.squeeze(mask)
             if mask_2d.ndim != 2:
                 mask_2d = mask_2d.squeeze(0)
