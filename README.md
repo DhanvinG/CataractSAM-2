@@ -29,7 +29,22 @@ We released our pretrain weight [here](https://huggingface.co/DhanvinG/Cataract-
 
 
 ## Installation
+
+Draft-Will be updated:
+
+-create and activate environment
+-install SAM2
+-install Cataract-SAM2
+-install jupyter notebook
+-download train model
+
+We tried the python 3.12, SAM-2 1.0, Jupuyterlab 7.4.4 and cuda 12.2
+
+------------------------------
+
 This project ships Meta's original SAM-2 repository as a git submodule under `sam2/`. Installing it in editable mode enables the exact CLI exposed by the upstream code.
+
+
 ```bash
 # clone the repository and install in editable mode
 git clone --recurse-submodules https://github.com/DhanvinG/Cataract-SAM2.git
@@ -41,6 +56,8 @@ pip install -e .
 > [!WARNING]
 > Restart your Python session or runtime to ensure imports work.
 > This is required for Hydra and editable installs to be registered correctly
+
+
 ```
 # download the pretrained SAM-2 weights from Hugging Face
 python examples/download_checkpoints.py
