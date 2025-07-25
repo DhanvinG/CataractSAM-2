@@ -36,7 +36,6 @@ video_segments: dict[int, dict[int, np.ndarray]]        = {}
 widget      : BBoxWidget
 pos_btn     = ipw.Button(description="POS",       layout=ipw.Layout(width="90px"))
 neg_btn     = ipw.Button(description="NEG",       layout=ipw.Layout(width="90px"))
-vis_btn     = ipw.Button(description="VISUALIZE", layout=ipw.Layout(width="120px"))
 banner      = ipw.HTML()
 plot_output = ipw.Output()
 
@@ -100,6 +99,8 @@ def _on_bboxes_changed(change):
             negative_points.append((x_orig, y_orig))
 
     widget.bboxes = new
+
+    _visualize()
 
 def _set_mode(m: str):
     widget.mode = m
