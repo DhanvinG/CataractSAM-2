@@ -202,7 +202,10 @@ def Object(frame_idx: int, obj_id: int, classname: str | None = None):
 
     # side-by-side layout
     layout = ipw.HBox(
-        [widget_output, mask_output],
+        [
+            widget_output,
+            ipw.VBox([mask_output], layout=ipw.Layout(padding='20px 0 0 0'))
+        ],
         layout=ipw.Layout(align_items="flex-start", width="100%")
     )
     display(layout)
