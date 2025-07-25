@@ -24,7 +24,7 @@ def Masks(out_dir: str | os.PathLike):
 
             mask_u8 = (mask_2d.astype(np.uint8) * 255)
             classname = CLASSES.get(obj_id, f"obj{obj_id}").replace(" ", "_")
-            fname = f"frame_{f_idx:03d}_obj_{obj_id}_{classname}.png"
+            fname = f"frame_{f_idx:03d}_{classname}.png"
 
             Image.fromarray(mask_u8, mode="L").save(out_dir / fname)
 
