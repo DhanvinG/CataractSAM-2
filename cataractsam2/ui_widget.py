@@ -74,7 +74,6 @@ def setup(pred, frames_dir: str):
     # Hook up the buttons
     pos_btn.on_click(lambda _: _set_mode("positive"))
     neg_btn.on_click(lambda _: _set_mode("negative"))
-    vis_btn.on_click(_visualize)
     _set_mode("positive")
 
 # ─────────────────────── internal callbacks ───────────────────
@@ -180,23 +179,25 @@ def Object(frame_idx: int, obj_id: int):
     plot_output.clear_output(wait=True)
     _set_mode("positive")
 
-    display(HTML(
-        """
-    <style>
-      #ctlBox {
-        position:fixed; top:12px; right:12px; z-index:9999;
-        background:#111; padding:6px 10px; border-radius:8px;
-        box-shadow:0 0 4px #0008;
-      }
-    </style>
-    <div id=\"ctlBox\"></div>
-    """
-    ))
+    # two output panes
+    widget_output = ipw.Output()
+    mask_output   = ipw.Output()
 
-    display(ipw.VBox([banner, ipw.HBox([pos_btn, neg_btn, vis_btn])]), target="ctlBox")
+    # left pane: controls + bbox widget
+    with widget_output:
+        display(banner, ipw.HBox([pos_btn, neg_btn]))
+        display(widget)
 
-    display(widget)
-    display(plot_output)
+    # right pane: live mask overlay
+    with mask_output:
+        display(plot_output)
+
+    # side-by-side layout
+    layout = ipw.HBox(
+        [widget_output, mask_output],
+        layout=ipw.Layout(align_items="flex-start", width="100%")
+    )
+    display(layout)
 
 
 def Visualize(frame_idx: int | None = None):
