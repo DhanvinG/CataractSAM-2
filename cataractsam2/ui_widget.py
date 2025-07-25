@@ -105,7 +105,6 @@ def _set_mode(m: str):
     widget.mode = m
     pos_btn.style.button_color = None
     neg_btn.style.button_color = None
-    vis_btn.style.button_color = None
     if m == "positive":
         pos_btn.style.button_color = "#28a745"
         banner.value = '<h3 style="margin:0;color:#28a745">MODE: POSITIVE</h3>'
@@ -117,7 +116,6 @@ def _visualize(_=None):
     """Internal handler for the VISUALIZE button."""
     pos_btn.style.button_color = None
     neg_btn.style.button_color = None
-    vis_btn.style.button_color = "#ffc107"
 
     with plot_output:
         plot_output.clear_output(wait=True)
