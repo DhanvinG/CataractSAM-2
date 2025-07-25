@@ -18,6 +18,7 @@ predictor       = None          # set by setup()
 video_dir       = ""
 frame_names: list[str] = []
 inference_state = None
+CLASSES: dict[int, str] = {}
 
 THUMB_SIZE = (640, 360)
 
@@ -159,12 +160,14 @@ def _visualize(_=None):
         plt.show()
 
 # ─────────────────────── public API ─────────────────────────
-def Object(frame_idx: int, obj_id: int):
+def Object(frame_idx: int, obj_id: int, classname: str | None = None):
     """Switch to <frame_idx> and start annotating <obj_id> from scratch."""
     global ann_frame_idx, ann_obj_id, frame_path
     global positive_points, negative_points
 
     clear_output(wait=True)
+    if classname is not None:
+        CLASSES[obj_id] = classname
 
     ann_frame_idx = frame_idx
     ann_obj_id = obj_id
@@ -176,6 +179,13 @@ def Object(frame_idx: int, obj_id: int):
     widget.image = encode_image(frame_path)
     plot_output.clear_output(wait=True)
     _set_mode("positive")
+
+    class_label = CLASSES.get(obj_id, f"Object {obj_id}")
+    banner.value = (
+        f'<h3 style="margin:0;color:#28a745">'
+        f'{class_label} (ID {obj_id}) on Frame {frame_idx}'
+        f'</h3>'
+    )
 
     # two output panes
     widget_output = ipw.Output()
