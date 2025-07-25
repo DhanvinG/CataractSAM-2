@@ -9,6 +9,7 @@ __all__ = ["Masks"]
 def Masks(out_dir: str | os.PathLike):
 
     from .ui_widget import video_segments  # lazy import to avoid cycles
+    from .ui_widget import CLASSES 
 
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -22,7 +23,9 @@ def Masks(out_dir: str | os.PathLike):
                 mask_2d = mask_2d.squeeze(0)
 
             mask_u8 = (mask_2d.astype(np.uint8) * 255)
-            Image.fromarray(mask_u8, mode="L") \
-                 .save(out_dir / f"frame_{f_idx:03d}_obj_{obj_id}.png")
+            classname = CLASSES.get(obj_id, f"obj{obj_id}").replace(" ", "_")
+            fname = f"frame_{f_idx:03d}_obj_{obj_id}_{classname}.png"
+
+            Image.fromarray(mask_u8, mode="L").save(out_dir / fname)
 
     print("✅  Saved masks →", out_dir)
