@@ -149,11 +149,7 @@ def _visualize(_=None):
         for i, oid in enumerate(out_obj_ids):
             mask_cache[(ann_frame_idx, oid)] = out_mask_logits[i].detach().cpu()
 
-        img = Image.open(frame_path)
-        aspect_ratio = img.width / img.height
-        fig_height = 6  # same as before
-        fig_width = fig_height * aspect_ratio
-        plt.figure(figsize=(fig_width, fig_height))
+        plt.figure(figsize=(9, 6))
         plt.title(f"Frame {ann_frame_idx}")
         plt.imshow(Image.open(frame_path))
         plt.axis("off")
