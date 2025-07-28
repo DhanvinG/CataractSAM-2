@@ -204,11 +204,12 @@ def Object(frame_idx: int, obj_id: int, classname: str | None = None):
     layout = ipw.HBox(
         [
             widget_output,
-            ipw.VBox([mask_output], layout=ipw.Layout(padding='20px 0 0 0'))
+            ipw.VBox([mask_output], layout=ipw.Layout(align_self="center"))
         ],
-        layout=ipw.Layout(align_items="flex-start", width="100%")
+        layout=ipw.Layout(align_items="center", width="100%")
     )
     display(layout)
+    
 
 
 def Visualize(frame_idx: int | None = None):
