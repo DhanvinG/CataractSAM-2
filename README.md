@@ -29,45 +29,43 @@ We released our pretrain weight [here](https://huggingface.co/DhanvinG/Cataract-
 
 
 ## Installation
+This project ships Meta's original SAM-2 repository as a git submodule under `sam2/`. Installing it in editable mode enables the exact CLI exposed by the upstream code. The environment requires Python 3.10+ and the packages listed in `requirements.txt`.  The weight download script fetches the public SAM-2 checkpoint from the `DhanvinG/Cataract-SAM2` repository on Hugging Face. It is stored in `checkpoints/` and is needed before using the library. CataractSAM‑2 has been tested on **Python 3.12**, **SAM‑2 v1.0**, **Jupyter Notebook 7.4.4**, and **CUDA 12.2**. Follow these steps to get started:
 
-Draft-Will be updated:
+1. **Clone the repository**  
+   ```bash
+   git clone --recurse-submodules https://github.com/DhanvinG/Cataract-SAM2.git
+   cd Cataract-SAM2
+   git submodule update --init --recursive
 
--create and activate environment
--install SAM2
--install Cataract-SAM2
--install jupyter notebook
--download train model
+2. **Create & activate a new virtual environment**  
+   ```bash
+   python -m venv venv
+   # macOS/Linux
+   source venv/bin/activate
+   # Windows
+   venv\Scripts\activate
 
-We tried the python 3.12, SAM-2 1.0, Jupuyterlab 7.4.4 and cuda 12.2
+3. **Install SAM‑2 core in editable mode**  
+   ```bash
+    pip install -e ./segment_anything_2
 
-------------------------------
+4. **Install CataractSAM‑2 in editable mode**  
+   ```bash
+    pip install -e .
 
-This project ships Meta's original SAM-2 repository as a git submodule under `sam2/`. Installing it in editable mode enables the exact CLI exposed by the upstream code.
+5. **Install Jupyter Notebook (for running the demo)**
+   ```bash
+    pip install notebook
 
+5. **Download pretrained weights**
+   ```bash
+    python examples/download_checkpoints.py
 
-```bash
-# clone the repository and install in editable mode
-git clone --recurse-submodules https://github.com/DhanvinG/Cataract-SAM2.git
-cd Cataract-SAM2
-git submodule update --init --recursive
-pip install -e ./segment_anything_2
-pip install -e .
-```
 > [!WARNING]
 > Restart your Python session or runtime to ensure imports work.
 > This is required for Hydra and editable installs to be registered correctly
 
-
-```
-# download the pretrained SAM-2 weights from Hugging Face
-python examples/download_checkpoints.py
-```
-
-The environment requires Python 3.10+ and the packages listed in
-`requirements.txt`.  The weight download script fetches the public SAM-2
-checkpoint from the `DhanvinG/Cataract-SAM2` repository on Hugging Face.
-It is stored in `checkpoints/` and is
-needed before using the library.
+------------------------------
 
 ## Quick start
 
