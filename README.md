@@ -2,7 +2,7 @@
 
 We introduce CataractSAM‑2, a domain-adapted extension of [SAM‑2](https://github.com/facebookresearch/sam2) optimized for high-precision segmentation in cataract and related ophthalmic surgeries. To preserve generalizable visual priors, we freeze the SAM‑2 image encoder and fine-tune only the prompt encoder and mask decoder on the [Cataract‑1K dataset](https://github.com/Negin-Ghamsarian/Cataract-1K). To address the time-consuming nature of manual frame-by-frame annotation, we develop a human-in-the-loop interactive annotation framework built on the `SAM2VideoPredictor`, significantly accelerating ground-truth generation.
 
-<img width="1920" height="1440" alt="Image" src="https://github.com/user-attachments/assets/1812e863-dee8-4d38-b7f6-faf46663687d" />
+<img width="1920" height="1440" alt="Image" src="https://github.com/user-attachments/assets/add66b99-f97c-4eab-9937-394ed09f0a43" />
 
 
 ## Overview
