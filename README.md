@@ -19,6 +19,10 @@ We introduce CataractSAM‑2, a domain-adapted extension of [SAM‑2](https://gi
   - ✅ Interactive inference widgets
   - ✅ Demo notebook
 
+
+## Backup Repository:
+An additional repository, independent of Google Colab, is available: https://github.com/mohaEs/CataractSAM-2
+
 ## Tutorial
 
 https://github.com/user-attachments/assets/bbd12ae9-ce1b-4756-b7d3-bc71fd6f43b4
